@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE52E3022BE081C9001ED72A /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52E3012BE081C9001ED72A /* Note.swift */; };
+		CE52E3042BE08528001ED72A /* CGColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52E3032BE08528001ED72A /* CGColorExtension.swift */; };
 		CE8D70C42BDF877B00D5A21F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70C32BDF877B00D5A21F /* AppDelegate.swift */; };
 		CE8D70C62BDF877B00D5A21F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70C52BDF877B00D5A21F /* SceneDelegate.swift */; };
-		CE8D70CE2BDF877B00D5A21F /* Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70CC2BDF877B00D5A21F /* Notes.xcdatamodeld */; };
 		CE8D70D02BDF877F00D5A21F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8D70CF2BDF877F00D5A21F /* Assets.xcassets */; };
 		CE8D70D32BDF877F00D5A21F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE8D70D12BDF877F00D5A21F /* LaunchScreen.storyboard */; };
 		CE8D70DF2BDF9B5600D5A21F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE8D70DE2BDF9B5600D5A21F /* Main.storyboard */; };
@@ -18,15 +19,14 @@
 		CE8D70E92BDFA17900D5A21F /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70E82BDFA17900D5A21F /* NoteDetailViewController.swift */; };
 		CE8D70EB2BDFA19400D5A21F /* NoteCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70EA2BDFA19400D5A21F /* NoteCardViewCell.swift */; };
 		CE8D70ED2BDFA1AA00D5A21F /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70EC2BDFA1AA00D5A21F /* NoteManager.swift */; };
-		CE8D70F02BDFABAB00D5A21F /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70EE2BDFABAB00D5A21F /* Note+CoreDataClass.swift */; };
-		CE8D70F12BDFABAB00D5A21F /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D70EF2BDFABAB00D5A21F /* Note+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE52E3012BE081C9001ED72A /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		CE52E3032BE08528001ED72A /* CGColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGColorExtension.swift; sourceTree = "<group>"; };
 		CE8D70C02BDF877B00D5A21F /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8D70C32BDF877B00D5A21F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE8D70C52BDF877B00D5A21F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE8D70CD2BDF877B00D5A21F /* Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notes.xcdatamodel; sourceTree = "<group>"; };
 		CE8D70CF2BDF877F00D5A21F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE8D70D22BDF877F00D5A21F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE8D70D42BDF877F00D5A21F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,8 +36,6 @@
 		CE8D70E82BDFA17900D5A21F /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
 		CE8D70EA2BDFA19400D5A21F /* NoteCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCardViewCell.swift; sourceTree = "<group>"; };
 		CE8D70EC2BDFA1AA00D5A21F /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = SOURCE_ROOT; };
-		CE8D70EE2BDFABAB00D5A21F /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
-		CE8D70EF2BDFABAB00D5A21F /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +77,6 @@
 				CE8D70CF2BDF877F00D5A21F /* Assets.xcassets */,
 				CE8D70D12BDF877F00D5A21F /* LaunchScreen.storyboard */,
 				CE8D70D42BDF877F00D5A21F /* Info.plist */,
-				CE8D70CC2BDF877B00D5A21F /* Notes.xcdatamodeld */,
 				CE8D70DE2BDF9B5600D5A21F /* Main.storyboard */,
 			);
 			path = Notes;
@@ -89,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8D70E42BDF9DAE00D5A21F /* ViewControllerExtension.swift */,
+				CE52E3032BE08528001ED72A /* CGColorExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -104,9 +102,8 @@
 		CE8D70DC2BDF9ADF00D5A21F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CE8D70EF2BDFABAB00D5A21F /* Note+CoreDataProperties.swift */,
-				CE8D70EE2BDFABAB00D5A21F /* Note+CoreDataClass.swift */,
 				CE8D70EC2BDFA1AA00D5A21F /* NoteManager.swift */,
+				CE52E3012BE081C9001ED72A /* Note.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,14 +190,13 @@
 			files = (
 				CE8D70EB2BDFA19400D5A21F /* NoteCardViewCell.swift in Sources */,
 				CE8D70ED2BDFA1AA00D5A21F /* NoteManager.swift in Sources */,
-				CE8D70F12BDFABAB00D5A21F /* Note+CoreDataProperties.swift in Sources */,
 				CE8D70E92BDFA17900D5A21F /* NoteDetailViewController.swift in Sources */,
+				CE52E3022BE081C9001ED72A /* Note.swift in Sources */,
+				CE52E3042BE08528001ED72A /* CGColorExtension.swift in Sources */,
 				CE8D70E72BDFA16400D5A21F /* NoteDisplayerViewController.swift in Sources */,
 				CE8D70E52BDF9DAE00D5A21F /* ViewControllerExtension.swift in Sources */,
 				CE8D70C42BDF877B00D5A21F /* AppDelegate.swift in Sources */,
 				CE8D70C62BDF877B00D5A21F /* SceneDelegate.swift in Sources */,
-				CE8D70F02BDFABAB00D5A21F /* Note+CoreDataClass.swift in Sources */,
-				CE8D70CE2BDF877B00D5A21F /* Notes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,19 +412,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		CE8D70CC2BDF877B00D5A21F /* Notes.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				CE8D70CD2BDF877B00D5A21F /* Notes.xcdatamodel */,
-			);
-			currentVersion = CE8D70CD2BDF877B00D5A21F /* Notes.xcdatamodel */;
-			path = Notes.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = CE8D70B82BDF877B00D5A21F /* Project object */;
 }

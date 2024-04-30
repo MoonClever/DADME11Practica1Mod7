@@ -12,23 +12,36 @@ class NoteDetailViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var detailNote : Note?
+    
+    var isEditOp : Bool = false
+
 
     @IBOutlet weak var noteTitle: UITextField!
     
-    @IBOutlet weak var noteDescription: UITextField!
+    @IBOutlet weak var noteContent: UITextView!
     
+    @IBOutlet weak var sizeSlider: UISlider!
+    
+    @IBOutlet weak var colorPicker: UIColorWell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if detailNote != nil {
+            isEditOp = true
             noteTitle.text = detailNote?.title
-            noteDescription.text = detailNote?.content
+            noteContent.text = detailNote?.content
+            sizeSlider.value = detailNote!.size
+            colorPicker.selectedColor = UIColor(red: detailNote!.color[0], green: detailNote!.color[1], blue: detailNote!.color[2], alpha: detailNote!.color[3])
         }
         else {
-            detailNote = Note(context:  context)
+            isEditOp = false
             noteTitle.text = ""
-            noteDescription.text = ""
+            noteContent.text = ""
+            sizeSlider.value = 14.0
+            colorPicker.selectedColor = UIColor(red: 0.5,green: 0.5,blue: 0.5,alpha: 1)
+            
+            detailNote = Note(title: "", content: "", size: 14.0, color: [0.5,0.5,0.5,1])
         }
     }
 
@@ -38,7 +51,6 @@ class NoteDetailViewController: UITableViewController {
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
         
         let isModal = self.presentingViewController is UINavigationController
-                print("isModal: ",isModal)
                 if isModal {
                     self.dismiss(animated: true)
                 }
@@ -54,19 +66,20 @@ class NoteDetailViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as! NoteDisplayerViewController
-        detailNote?.title = noteTitle.text
-        detailNote?.content = noteDescription.text
-        
-        destination.currentTask = detailNote
+        detailNote?.title = noteTitle.text ?? ""
+        detailNote?.content = noteContent.text ?? ""
+        detailNote?.size = sizeSlider.value
+        detailNote?.color = (colorPicker.selectedColor?.cgColor.components!)!
+        destination.currentNote = detailNote
     }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         var perform = false
         
         if let title = noteTitle.text {
-            if let description = noteDescription.text{
-                if (title.isEmpty || description.isEmpty){
-                    self.show(warning: "Por favor complete los campos faltantes")
+            if let content = noteContent.text{
+                if (title.isEmpty || content.isEmpty){
+                    self.show(warning: "Ingrese todos los datos faltantes")
                 }
                 else {
                     perform = true

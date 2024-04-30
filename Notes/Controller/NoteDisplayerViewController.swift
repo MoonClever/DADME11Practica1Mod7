@@ -9,17 +9,18 @@ import UIKit
 
 class NoteDisplayerViewController: UIViewController {
 
-    
-    @IBOutlet var emptyNoteView: UIView!
+    @IBOutlet weak var emptyNoteView: UIImageView!
     
     @IBOutlet weak var noteDisplay: UITableView!
     
     @IBOutlet weak var addNoteButton: UIBarButtonItem!
     
     
-    var currentTask: Note?
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var taskManager : NoteManager?
+    var currentNote: Note?
+    var noteManager : NoteManager?
+    
+    var isEdit : Bool = false
+    var editIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +28,9 @@ class NoteDisplayerViewController: UIViewController {
         // Do any additional setup after loading the view.
 //        toDoList.delegate = self
 //        toDoList.dataSource = self
-        taskManager = NoteManager(context: context)
-        taskManager?.fetch()
+        noteManager = NoteManager()
+        //noteManager?.saveNotes()
+        noteManager?.loadNotes()
     }
     
     
@@ -56,19 +58,17 @@ class NoteDisplayerViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showTaskSegue" {
             let destination = segue.destination as! NoteDetailViewController
-            destination.detailNote = taskManager?.getAllNotes()[noteDisplay.indexPathForSelectedRow!.row]
+            destination.detailNote = noteManager?.getNote(at: noteDisplay.indexPathForSelectedRow!.row)
             
         }
             
     }
-    
-
 }
 
 
 extension NoteDisplayerViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if taskManager?.countNotes() == 0 {
+        if noteManager?.countNotes() == 0 {
             emptyNoteView.isHidden = false
             noteDisplay.backgroundView = emptyNoteView
         }
@@ -76,51 +76,60 @@ extension NoteDisplayerViewController: UITableViewDelegate, UITableViewDataSourc
             emptyNoteView.isHidden = true
         }
         
-        return (taskManager?.countNotes())!
+        return (noteManager?.countNotes())!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NoteCardViewCell
-        cell.noteTitle.text = taskManager?.getAllNotes()[indexPath.row].title
-        cell.noteContent.text = taskManager?.getAllNotes()[indexPath.row].content
+        let color = noteManager?.getNote(at: indexPath.row).color
+        let size = noteManager?.getNote(at: indexPath.row).size
+        
+        cell.noteTitle.text = noteManager?.getNote(at: indexPath.row).title
+        cell.noteContent.text = noteManager?.getNote(at: indexPath.row).content
+        
+        
+        cell.noteTitle.textColor = UIColor(red: color?[0] ?? 0, green: color?[1] ?? 0, blue: color?[2] ?? 0, alpha: color?[3] ?? 0)
+        cell.noteContent.textColor = UIColor(red: color?[0] ?? 0, green: color?[1] ?? 0, blue: color?[2] ?? 0, alpha: color?[3] ?? 0)
+        
+        cell.noteTitle.font?.withSize(CGFloat(size ?? 14))
+        cell.noteContent.font?.withSize(CGFloat(size ?? 14))
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        editIndex = indexPath.row
         performSegue(withIdentifier: "showTaskSegue", sender: self)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            currentTask = taskManager?.getAllNotes()[indexPath.row]
-            self.context.delete(currentTask!)
+            noteManager?.deleteNote(at: indexPath.row)
+            noteManager?.saveNotes()
             
-            do{
-                try self.context.save()
-            }
-            catch let error {
-                print("Error: ", error)
-            }
         }
-        taskManager?.fetch()
+        noteManager?.loadNotes()
         noteDisplay.reloadData()
     }
     
     
     
     @IBAction func unWindToToDoList(segue : UIStoryboardSegue){
-        print("Unwind Segue!!")
         let source = segue.source as! NoteDetailViewController
-        currentTask = source.detailNote
+        currentNote = source.detailNote
+        isEdit = source.isEditOp
+        if (isEdit){
+            noteManager?.updateNote(at: editIndex, note: currentNote!)
+            noteManager?.saveNotes()
+        }
+        else{
+            noteManager?.createNote(note: currentNote!)
+            noteManager?.saveNotes()
+        }
         
-        do{
-            try context.save()
-        }
-        catch let error{
-            print("Error: ", error)
-        }
         //Show updated task list
-        taskManager?.fetch()
+        noteManager?.loadNotes()
         //reload table data
         noteDisplay.reloadData()
     }

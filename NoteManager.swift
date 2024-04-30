@@ -6,104 +6,77 @@
 //
 
 import Foundation
-import CoreData
 
 class NoteManager{
-    private var noteList: [Note] = []
-    private var context : NSManagedObjectContext
+   
+    private var notes : [Note] = []
     
-    init(context : NSManagedObjectContext){
-        self.context = context
+    func createNote(note: Note){
+        notes.append(note)
     }
     
-    func fetch(){
-        do{
-            self.noteList = try self.context.fetch(Note.fetchRequest())
-        }
-        catch let error{
-            print("error: ", error)
-        }
-
+    func updateNote(at index: Int, note: Note){
+        notes[index] = note
     }
     
+    func deleteNote(at index : Int) {
+        notes.remove(at: index)
+    }
+    
+    func getNotes() -> [Note]{
+        return notes
+    }
+    
+    func getNote(at index: Int) -> Note {
+        return notes[index]
+    }
     func countNotes() -> Int {
-        return noteList.count
+        return notes.count
     }
     
-    
-    func createNote(title: String, uuid : UUID, content : String) -> Note?{
-        let newNote = Note(context: context)
-        newNote.title = title
-        newNote.id = UUID()
-        newNote.content = content
+    func saveNotes(){
+        //save json file with created notes
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        print("DD:", documentsDirectory)
         
+        //v1
+        let notesURL = documentsDirectory.appendingPathComponent("notes.json")
+        print("notesURL:", notesURL)
+        //v2
+//        let notesURL2 = documentsDirectory.appending(path: "notes.json")
+//        print("notesURL v2", notesURL2)
+        
+        //Save [Note] as json file
         do{
-            try context.save()
-            return newNote
+            let jsonData = try JSONEncoder().encode(notes)
+            fileManager.createFile(atPath: notesURL.path, contents: jsonData)
         }
         catch let error {
-            print("Error: ", error)
-            return nil
+            print(error)
         }
     }
     
-    func getAllNotes() -> [Note]{
-        if let noteList = try? self.context.fetch(Note.fetchRequest()){
-            return noteList
+    func loadNotes() {
+        let fileManager = FileManager.default
+        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let notesURL = documentDirectory.appendingPathComponent("notes.json")
+        
+        //check if file exists
+        if fileManager.fileExists(atPath: notesURL.path){
+            do {
+                let jsonData = fileManager.contents(atPath: notesURL.path)
+                //Decode json file into array
+                notes = try JSONDecoder().decode([Note].self, from: jsonData!)
+            }
+            catch let error {
+                print("error: ", error)
+            }
         }
         else{
-            return []
+            print("No se localizo el archivo")
         }
     }
-    
-    func getNoteByID(uuid: UUID) -> Note?{
-        let fetchRequest = NSFetchRequest<Note>(entityName: "Note")
-        var predicate : NSPredicate?
-        
-        predicate  = NSPredicate(format: "id = %@", uuid as CVarArg)
-        
-        fetchRequest.predicate = predicate
-        
-        do{
-            let note = try context.fetch(fetchRequest)
-            return note.first
-        }
-        catch let error {
-            print("error: ", error)
-            return nil
-        }
-    }
-    
-    func updateNote(note: Note, title: String, uuid : UUID, content : String, date : Date) -> Note{
-        note.title = title
-        note.id = UUID()
-        note.content = content
-        
-        do{
-            try context.save()
-        }
-        catch let error{
-            print("Error: ", error)
-        }
-        
-        return note
-        
-    }
-    
-    func deleteNote(note : Note) -> Bool{
-        
-        self.context.delete(note)
-        
-        do{
-            try context.save()
-            return true
-        }
-        catch let error{
-            print("Error: ", error)
-            return false
-        }
-    }
-    
     
 }
 
